@@ -1,0 +1,38 @@
+{
+  "name": "graph-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --es-module-specifier-resolution=node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "graphql-request": "^4.0.0",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "pino": "^7.6.5",
+    "yaml": "^1.10.2",
+    "yawn-yaml": "^1.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/parser": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@madhouselabs/eslint-config-base": "^1.0.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-esm": "^1.0.7",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-plugin-airbnb-base": "^0.0.1-security",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.0"
+  }
+}

@@ -1,0 +1,42 @@
+parser: "@babel/eslint-parser"
+parserOptions:
+  ecmaVersion: 2021
+  souarceType: module
+  requireConfigFile: false
+  babelOptions:
+    presets:
+      - "@babel/preset-env"
+    # rootMode: upward
+
+env: 
+  node: true
+  jest: true
+
+extends:
+  - '@madhouselabs/eslint-config-base'
+
+settings:
+  import/resolver:
+    node: true
+    esm:
+      debug: false
+      paths:
+        - ./
+
+rules:
+  spaced-comment: 0
+  import/prefer-default-export: 0
+  import/extensions: 0
+  no-console:
+    - error
+    - allow:
+      - time
+      - timeEnd
+  no-param-reassign:
+    - error
+    - props: false
+  dot-notation:
+    - "error"
+    - allowPattern: "^[a-z]+(_[a-z]+)+$"
+  no-restricted-syntax: 0
+

@@ -1,0 +1,13 @@
+{
+  "mode": "dev",
+  "dev": {
+    "url": "https://nxt.gateway.dev.madhouselabs.io",
+    "email": "nxtcoder17@gmail.com",
+    "password": "sample"
+  },
+  "prod": {
+    "url": "https://nxt.gateway.dev.madhouselabs.io",
+    "email": "nxtcoder17@gmail.com",
+    "password": "sample"
+  }
+}

@@ -1,0 +1,37 @@
+---
+query: |
+  mutation Login($email: String!, $password: String!) {
+    auth {
+      login(email: $email, password: $password) {
+        id
+        userId
+        userEmail
+      }
+    }
+  }
+
+variables:
+  hello:
+    world:
+      key: value
+  email: "{{email}}"
+  password: "{{password}}"
+
+---
+query: |
+  mutation Login($email: String!, $password: String!) {
+    auth {
+      login(email: $email, password: $password) {
+        id
+        userId
+        userEmail
+      }
+    }
+  }
+
+variables:
+  hello:
+    world:
+      key: value
+  email: "{{email}}"
+  password: "{{password}}"
