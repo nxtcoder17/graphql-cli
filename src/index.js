@@ -28,7 +28,7 @@ const logd = (...msg) => {
   }
 };
 
-const log = (...msg) => {
+const log = (msg) => {
   // eslint-disable-next-line no-console
   console.log(msg);
 };
