@@ -1,7 +1,7 @@
 ## Inspiration
 .http file based REST api interaction in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/qdoRU5f" data-context="false" ><a href="//imgur.com/a/qdoRU5f"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+![Demo](https://i.imgur.com/a/qdoRU5if.gif)
 
 ## How to Use
 
