@@ -1,7 +1,7 @@
 ## Inspiration
 .http file based REST api interaction in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij
 
-![Demo](https://i.imgur.com/a/qdoRU5if.gif)
+![Demo](./demo.gif)
 
 ## How to Use
 
