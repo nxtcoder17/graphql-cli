@@ -1,7 +1,17 @@
-## Inspiration
-.http file based REST api interaction in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij
+## grapqhl client to speed up grapqhl query/mutation development
 
 ![Demo](./demo.gif)
+
+## How You should use it (For Neovim Users)
+
+- Add this line in your nvim(0.5+) configuration, it would create a command `Gql`
+```lua
+vim.cmd [[
+  command! -nargs=0 Gql  execute 'vne | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile | set ft=json | r! node --es-module-specifier-resolution=node <where-you-cloned>/src/index.js' . ' '. expand('%:p') . ' gqlenv.json'. ' '. line('.')
+]]
+```
+
+- then, while editing graphql-cli yml file, on the yaml block that you want to make grapqhl call for, do `:Gql`, and the response would come to you in a vertical split next to you
 
 ## How to Use
 
@@ -52,16 +62,9 @@ variables:
 pnpm start -- $filename $envFileName $lineNumber
 ```
 
-## How I Use It
 
-- I have added this line in my nvim(0.5+) configuration, it would create a command `Gql`
-```lua
-vim.cmd [[
-  command! -nargs=0 Gql  execute 'vne | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile | set ft=json | r! node --es-module-specifier-resolution=node <where-you-cloned>/src/index.js' . ' '. expand('%:p') . ' gqlenv.json'. ' '. line('.')
-]]
-```
-
-- then, while editing graphql-cli yml file, on the yaml block that you want to make grapqhl call for, do `:Gql`, and the response would come to you in a vertical split next to you
+## Inspired By
+.http file based REST Client in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij
 
 ## Next To Come
 
