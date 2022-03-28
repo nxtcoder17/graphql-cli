@@ -1,17 +1,21 @@
 ## grapqhl client to speed up grapqhl query/mutation development
 
-![Demo](./demo.gif)
+![demo](https://user-images.githubusercontent.com/22402557/160329835-7f445332-fbbc-48bf-9922-43e907975ba2.gif)
 
-## How You should use it (For Neovim Users)
+## How to Use (with neovim)
 
-- Add this line in your nvim(0.5+) configuration, it would create a command `Gql`
+- if you use packer
 ```lua
-vim.cmd [[
-  command! -nargs=0 Gql  execute 'vne | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile | set ft=json | r! node --es-module-specifier-resolution=node <where-you-cloned>/src/index.js' . ' '. expand('%:p') . ' gqlenv.json'. ' '. line('.')
-]]
+  use({
+    "nxtcoder17/graphql-cli",
+    run = "pnpm i",  -- npm i, as per your choice
+    config = function()
+      require("graphql-cli").setup({
+        command = "Gql",
+      })
+    end,
+  })
 ```
-
-- then, while editing graphql-cli yml file, on the yaml block that you want to make grapqhl call for, do `:Gql`, and the response would come to you in a vertical split next to you
 
 ## How to Use
 
@@ -62,11 +66,10 @@ variables:
 pnpm start -- $filename $envFileName $lineNumber
 ```
 
-
 ## Inspired By
 .http file based REST Client in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij
 
 ## Next To Come
 
-- [ ] Neovim plugin that could just setup the previous step for you
-- [x] i don't know now 😂
+- [x] Neovim plugin that could just setup the previous step for you
+- [x] i don't know yet 😂
