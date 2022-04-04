@@ -5,14 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --es-module-specifier-resolution=node ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_NO_WARNINGS=1 node --es-module-specifier-resolution=node ./src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.25.0",
+    "commander": "^9.1.0",
     "graphql-request": "^4.0.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",

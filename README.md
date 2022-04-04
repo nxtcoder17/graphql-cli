@@ -10,11 +10,19 @@
     "nxtcoder17/graphql-cli",
     run = "pnpm i",  -- npm i, as per your choice
     config = function()
-      require("graphql-cli").setup({
-        command = "Gql",
-      })
+      require("graphql-cli").setup()
     end,
   })
+```
+
+- default config
+```lua
+local defaultConfig = {
+	command = "Gql",
+	envFile = function()
+		return string.format("%s/%s", vim.env.PWD, "gqlenv.json")
+	end,
+}
 ```
 
 ## How to Use
