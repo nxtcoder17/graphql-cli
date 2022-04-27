@@ -9,7 +9,6 @@ local defaultConfig = {
 
 M.setup = function(config)
 	config = vim.tbl_deep_extend("force", defaultConfig, config or {})
-	print(vim.inspect(nConfig))
 
 	local currDir = debug.getinfo(1).source:match("@?(.*/)")
 	local pRootDir = currDir .. "../.."
