@@ -1,0 +1,65 @@
+---
+globals:
+  installationId: "sample"
+---
+
+label: Me
+query: |
+  query Me {
+    auth_me {
+      avatar
+      id
+      email
+    }
+  }
+
+---
+label: Get Github Installation Token
+query: |
+  query Query($installationId: Int!) {
+    ci_githubInstallationToken(installationId: $installationId)
+  }
+variables:
+  installationId: "{{installationId}}"
+
+---
+label: List Github Installations
+query: |
+  query Query {
+    ci_githubInstallations
+  }
+
+---
+
+label: List Github Repos
+query: |
+  query Query($installationId: Int!, $page: Int!, $limit: Int!) {
+    ci_githubRepos(installationId: $installationId, page: $page, limit: $limit)
+  }
+variables:
+  installationId: "{{installationId}}"
+  page: 1
+  limit: 20
+
+---
+
+label: Github Add Webhook
+query: |
+  mutation OAuth_githubAddWebhook($repoUrl: String!) {
+    ci_githubAddWebhook(repoUrl: $repoUrl)
+  }
+variables:
+  repoUrl: nxtcoder17/sample
+
+---
+
+label: Github List Branches
+query: |
+  query Query($page: Int!, $repoUrl: String!, $limit: Int!) {
+    ci_githubRepoBranches(page: $page, repoUrl: $repoUrl, limit: $limit)
+  }
+variables:
+  repoUrl: nxtcoder17/sample
+  page: 1
+  limit: 20
+
