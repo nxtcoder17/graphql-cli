@@ -52,7 +52,7 @@ local defaultConfig = {
 global:
   email: "sample@gmail.com"
 
-----
+---
 query: |
   mutation Login($email: String!, $password: String!) {
     auth {
@@ -73,6 +73,8 @@ variables:
 ```sh
 pnpm start -- $filename $envFileName $lineNumber
 ```
+
++ you need to have a variable `url` either in one of the mode vars or global vars
 
 ## Inspired By
 .http file based REST Client in [Neovim/vim](https://github.com/bayne/vim-dot-http) and Intellij

@@ -32,12 +32,6 @@ program
       env,
     });
 
-    // const { yamlDoc, env } = await readAndParseFile({
-    //   fileName: args.file,
-    //   envFile: args.env,
-    //   line: args.line,
-    // });
-
     const { query, headers } = buildQuery({ yamlBlock: yBlock, env });
     log('### request headers ###\n');
     log(JSON.stringify(headers, null, 2));
