@@ -1,5 +1,5 @@
 ---
-globals:
+global:
   installationId: "sample"
 ---
 
@@ -12,6 +12,9 @@ query: |
       email
     }
   }
+
+variables:
+  installationId: {{installationId}}
 
 ---
 label: Get Github Installation Token

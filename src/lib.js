@@ -2,8 +2,7 @@ import fs from 'fs/promises';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import axios from 'axios';
-
-const { template } = lodash;
+import assert from 'assert';
 
 export const debug = process.env?.DEBUG === 'true';
 
@@ -19,12 +18,75 @@ export const log = (...msg) => {
   console.log(...msg);
 };
 
+const template = (str, values) => {
+  const v = lodash.template(str, {
+    interpolate: /{{([\s\S]+?)}}/g,
+  })(values);
+  return v;
+};
+
 const readFile = async (fileName) => {
   const f = await fs.readFile(fileName, 'utf8');
   return f.toString();
 };
 
-export const YAML_DELIMETER = '---';
+const YAML_DELIMETER = '---';
+
+export const readEnv = async ({ envFile, mode }) => {
+  const body = yaml.load(await readFile(envFile), {
+    json: true,
+  });
+  assert(
+    mode || body.mode,
+    'CLI option -m|--mode or mode in envfile must be set'
+  );
+  return body[mode || body.mode];
+};
+
+export const findYamlBlock = async ({ file, line, env }) => {
+  const f = await readFile(file);
+  const lines = f.split('\n');
+  const delims = [];
+  if (lines[0].trim() !== YAML_DELIMETER) {
+    delims.push(0);
+  }
+  let hasGlobalVars = false;
+  lines.forEach((l, idx) => {
+    if (l.trim() === YAML_DELIMETER) {
+      delims.push(idx);
+    }
+    if (delims.length <= 1 && l.trim().startsWith('global:')) {
+      hasGlobalVars = true;
+    }
+  });
+
+  // check if file defines some global vars
+  let globalVars = {};
+  if (hasGlobalVars) {
+    const { global: vars } = yaml.load(
+      lines.slice(delims[0], delims[1]).join('\n')
+    );
+    globalVars = {
+      ...env[env.mode],
+      ...vars,
+    };
+  }
+
+  for (let i = 1; i < delims.length; i += 1) {
+    if (line - 1 < delims[i]) {
+      const s = lines
+        .slice(Math.max(delims[i - 1] + 1, 0), delims[i])
+        .join('\n');
+
+      const p = template(s, globalVars);
+      return yaml.load(p, {
+        json: true,
+      });
+    }
+  }
+
+  throw new Error('could not find yaml block');
+};
 
 export const readAndParseFile = async ({ fileName, line, envFile }) => {
   const file = await readFile(fileName);
@@ -90,22 +152,25 @@ export const readAndParseFile = async ({ fileName, line, envFile }) => {
   };
 };
 
-export const buildQuery = ({ yamlDoc, env }) => {
+export const buildQuery = ({ yamlBlock, env }) => {
   const q = {
-    query: yamlDoc.query,
-    operationName: yamlDoc.query.split(/\s+/, 3)[1].split('{')[0].split('(')[0],
-    ...(yamlDoc.variables ? { variables: yamlDoc.variables } : {}),
+    query: yamlBlock.query,
+    operationName: yamlBlock.query
+      .split(/\s+/, 3)[1]
+      .split('{')[0]
+      .split('(')[0],
+    ...(yamlBlock.variables ? { variables: yamlBlock.variables } : {}),
   };
 
-  const v = template(JSON.stringify(q.variables), {
-    interpolate: /{{([\s\S]+?)}}/g,
-  })(env);
+  // const v = template(JSON.stringify(q.variables), {
+  //   interpolate: /{{([\s\S]+?)}}/g,
+  // })(env);
 
-  if (v) q.variables = JSON.parse(v);
+  // if (v) q.variables = JSON.parse(v);
 
   const headers = {
     'Content-Type': 'application/json',
-    ...(yamlDoc.headers || {}),
+    ...(yamlBlock.headers || {}),
     ...env.headers,
   };
 

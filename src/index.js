@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import os from 'os';
 import path from 'path';
-import { log, readAndParseFile, buildQuery, executeQuery } from './lib';
+import { log, readEnv, findYamlBlock, buildQuery, executeQuery } from './lib';
 
 const program = new Command();
 
@@ -14,8 +14,9 @@ program
   .command(actions.GRAPHQL)
   .description('handles grapqhl requests')
   .requiredOption('-f|--file <file-name>', 'file name')
-  .requiredOption('-e|--env <env-file-name>', 'env file name')
+  .requiredOption('-e|--envfile <env-file-name>', 'env file name')
   .requiredOption('-l|--line <line-no>', 'line number')
+  .option('-m|--mode <env-mode>', 'env mode')
   .option('--dry-run', 'dry run')
   .option(
     '--log-file',
@@ -24,13 +25,20 @@ program
   )
   .action(async (args) => {
     args.line = Number(args.line);
-    const { yamlDoc, env } = await readAndParseFile({
-      fileName: args.file,
-      envFile: args.env,
+    const env = await readEnv({ envFile: args.envfile, mode: args.mode });
+    const yBlock = await findYamlBlock({
+      file: args.file,
       line: args.line,
+      env,
     });
 
-    const { query, headers } = buildQuery({ yamlDoc, env });
+    // const { yamlDoc, env } = await readAndParseFile({
+    //   fileName: args.file,
+    //   envFile: args.env,
+    //   line: args.line,
+    // });
+
+    const { query, headers } = buildQuery({ yamlBlock: yBlock, env });
     log('### request headers ###\n');
     log(JSON.stringify(headers, null, 2));
 
