@@ -59,15 +59,18 @@ export const findYamlBlock = async ({ file, line, env }) => {
       hasGlobalVars = true;
     }
   });
+  if (lines[lines.length - 1].trim() !== YAML_DELIMETER) {
+    delims.push(lines.length - 1);
+  }
 
   // check if file defines some global vars
-  let globalVars = {};
+  let globalVars = { ...env[env.mode] };
   if (hasGlobalVars) {
     const { global: vars } = yaml.load(
       lines.slice(delims[0], delims[1]).join('\n')
     );
     globalVars = {
-      ...env[env.mode],
+      ...globalVars,
       ...vars,
     };
   }
@@ -161,12 +164,6 @@ export const buildQuery = ({ yamlBlock, env }) => {
       .split('(')[0],
     ...(yamlBlock.variables ? { variables: yamlBlock.variables } : {}),
   };
-
-  // const v = template(JSON.stringify(q.variables), {
-  //   interpolate: /{{([\s\S]+?)}}/g,
-  // })(env);
-
-  // if (v) q.variables = JSON.parse(v);
 
   const headers = {
     'Content-Type': 'application/json',
