@@ -38,14 +38,20 @@ program
 
     log('');
     console.time('TIME TAKEN');
-    const response = await executeQuery({ url: env.url, query, headers });
-    console.timeEnd('TIME TAKEN');
+    try {
+      const response = await executeQuery({ url: env.url, query, headers });
+      console.timeEnd('TIME TAKEN');
+      log('\n### response headers ###\n');
+      log(JSON.stringify(response.headers, null, 2));
 
-    log('\n### response headers ###\n');
-    log(JSON.stringify(response.headers, null, 2));
-
-    log('\n### GQL response ###\n');
-    log(JSON.stringify(response.data, null, 2));
+      log('\n### GQL response ###\n');
+      log(JSON.stringify(response.data, null, 2));
+    } catch (err) {
+      if (err?.response?.data) {
+        log('Axios Err:', err.response.data);
+      }
+      log('ERR: ', err.message);
+    }
   });
 
 program
